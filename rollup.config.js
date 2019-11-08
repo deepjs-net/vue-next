@@ -5,10 +5,13 @@ import replace from 'rollup-plugin-replace'
 import alias from 'rollup-plugin-alias'
 import json from 'rollup-plugin-json'
 import lernaJson from './lerna.json'
+// import serverIo from 'rollup-plugin-server-io'
 
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
 }
+
+console.log(path.join(__dirname, 'examples')) // ./vue-next
 
 const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, process.env.TARGET)
@@ -114,6 +117,15 @@ function createConfig(output, plugins = []) {
     // used alone.
     external: isGlobalBuild || isBrowserESMBuild ? [] : externals,
     plugins: [
+      // serverIo({
+      //   // 添加你自己根目录，可以有多个
+      //   webroot: [
+      //     path.join(__dirname, 'dist'),
+      //     path.join(__dirname, '__test__'),
+      //     path.join(__dirname, 'examples'),
+      //     path.join(__dirname, 'packages')
+      //   ],
+      // }),
       json({
         namedExports: false
       }),

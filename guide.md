@@ -2,9 +2,9 @@
 
 目前打包后的代码是 ES2015+，不支持 IE 11。
 
-source: https://juejin.im/post/5d977f47e51d4578453274b3
-
 [Vue 官方时间表](https://github.com/vuejs/vue/projects/6)
+
+**第一阶段** 大体结构
 
 关于阅读顺序，我的建议是
 
@@ -28,10 +28,37 @@ source: https://juejin.im/post/5d977f47e51d4578453274b3
 - shared 目录: 没有暴露任何 API，主要包含了一些平台无关的内部帮助方法。
 - vue 目录: 用于构建「完整构建」版本，引用了上面提到的 runtime 和 compiler。
 
-可以看出，新的 Vue 代码仓库是模块化的。接下来我们逐一来看看每个模块暴露的 API。
+响应式原理 @vue/reactivity 模块
 
-### @vue/reactivity 模块
+这是一个极其重要的模块，它是一个数据响应式系统。其暴露的主要 API 有
 
-这是一个极其重要的模块，它是一个数据响应式系统。其暴露的主要 API 有 ref（数据容器）、reactive（基于 Proxy 实现的响应式数据）、computed（计算数据）、effect（副作用） 等几部分：
+- ref（数据容器）
+- reactive（基于 Proxy 实现的响应式数据）包装数据
+- computed（计算数据）
+- effect（副作用）定义数据变化后的回调
+- ...
 
-很明显，这个模块就是 Composition API 的核心了，其中的 ref 和 reactive 应该重点掌握。
+参考:
+
+- https://juejin.im/post/5d977f47e51d4578453274b3
+
+**第二阶段** 代码调试
+
+- [调试](https://juejin.im/post/5d9ecf7a5188251b024e2665)
+
+1. 开启 sourceMap
+2. 配置 examples 并起服务
+    - 手动执行 `http-server -p 8090 -o`
+    - 自动执行通过 `rollup-plugin-server-io`
+    - 右键执行 vscode 插件 Live Server
+
+然后执行 `yarn dev reactivity` 后浏览器访问examples `reactive.html`
+
+[Observer vs Pub-Sub pattern](https://hackernoon.com/observer-vs-pub-sub-pattern-50d3b27f838c)
+
+参考:
+
+- [基于发布-订阅模式分析vue3.0响应式原理](https://juejin.im/post/5da3e36be51d4578045a3597)
+- [reactivity源码解析](https://juejin.im/post/5d9eea80e51d45781e0f5e02)
+- [mount源码解析](https://juejin.im/post/5dba495ce51d452a2d10307c)
+- https://github.com/KieSun/vue-interpretation
